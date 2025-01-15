@@ -4,12 +4,7 @@ public class CameraAdjuster : MonoBehaviour
 {
     private SpriteRenderer templateSprite; 
     private Camera Camera;
-
-    //private void Start()
-    //{
-
-    //    AdjustCameraToBackground();
-    //}
+ 
 
     [ContextMenu("Set camera's size")]
     public void AdjustCameraToBackground()

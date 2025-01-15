@@ -39,7 +39,9 @@ public class ItemDragHandler : MonoBehaviour
         _rbody.angularVelocity = 0;
         _rbody.linearVelocity = Vector2.zero;
 
-        if (RaycastComponentChecker<IContainable>.ComponentCheck(Input.mousePosition, out var slot))
+        var componentChecker = new RaycastComponentChecker<IContainable>();
+
+        if (componentChecker.ComponentCheck(Input.mousePosition, out var slot))
         {
             var slotConfig = slot.GetSlotConfig();
             transform.position = slotConfig.SlotPosition;

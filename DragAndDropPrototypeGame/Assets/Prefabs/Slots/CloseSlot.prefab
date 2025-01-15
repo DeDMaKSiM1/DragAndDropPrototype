@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885dd18ee85d4f140bc011bd42e011f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 0d0138af05ef8924cb1e08b76994571c, type: 2}
+  _config: {fileID: 11400000, guid: 0d0138af05ef8924cb1e08b76994571c, type: 2}
   _slotPosition: {fileID: 1992863884721104802}
 --- !u!1 &2515766862153923196
 GameObject:

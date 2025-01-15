@@ -1,11 +1,9 @@
 using Scripts.Interfaces;
-using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine; 
 
 
 public class ItemDragHandler : MonoBehaviour
 {
-    [SerializeField] private float _sizeChangeCoefficient = 0.8f;
     private Rigidbody2D _rbody;
     private Camera _mainCamera;
     private Vector2 mousePosition;
@@ -19,7 +17,7 @@ public class ItemDragHandler : MonoBehaviour
         _rbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
         _originScale = transform.localScale;
-        _changedScale = transform.localScale * _sizeChangeCoefficient;
+        //_changedScale = transform.localScale * _sizeChangeCoefficient;
     }
     private void OnMouseDown()
     {
@@ -43,7 +41,9 @@ public class ItemDragHandler : MonoBehaviour
 
         if (RaycastComponentChecker<IContainable>.ComponentCheck(Input.mousePosition, out var slot))
         {
-            transform.position = slot.GetSlotPosition();
+            var slotConfig = slot.GetSlotConfig();
+            transform.position = slotConfig.SlotPosition;
+            _changedScale = transform.localScale * slotConfig.SizeChangeCoefficient;
             _rbody.gravityScale = 0f;
             transform.localScale = _changedScale;
         }

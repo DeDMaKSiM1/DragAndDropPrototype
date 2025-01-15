@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class ItemSlot : MonoBehaviour, IContainable
 {
+    [SerializeField] private SlotConfig _config;
     [SerializeField] private Transform _slotPosition;
 
-    public Vector2 GetSlotPosition()
+    public SlotConfig GetSlotConfig()
     {
-        return _slotPosition.position;
+        _config.SlotPosition = _slotPosition.position;
+
+        return _config;
     }
 }
 

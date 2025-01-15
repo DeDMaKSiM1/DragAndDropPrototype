@@ -14,11 +14,9 @@ public class RaycastComponentChecker<T> : MonoBehaviour
             foreach (var item in hitArr)
             {
                 if (item.collider.TryGetComponent<T>(out slot))
-                {
-                    Debug.Log("Успешно " + slot);
+                { 
                     return true;
-                }
-                Debug.Log(item);
+                } 
             }
         }
         catch (Exception e)

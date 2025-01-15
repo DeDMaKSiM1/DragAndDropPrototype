@@ -7,6 +7,7 @@ public class ItemDragHandler : MonoBehaviour
 {
     private Rigidbody2D _rbody;
     private Camera _mainCamera;
+    private Vector2 mousePosition;
 
     public UnityEvent MouseUp;
     private void Start()
@@ -16,7 +17,7 @@ public class ItemDragHandler : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         _rbody.gravityScale = 0f;
 
         transform.position = mousePosition;
@@ -26,17 +27,18 @@ public class ItemDragHandler : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         transform.position = mousePosition;
 
     }
     private void OnMouseUp()
     {
+        ;
         transform.localScale /= 0.8f;
         _rbody.angularVelocity = 0;
         _rbody.linearVelocity = Vector2.zero;
 
-        if (CheckForTrigger(out var slot))
+        if (RaycastComponentChecker<IContainable>.ComponentCheck(Input.mousePosition, out var slot))
         {
             transform.position = slot.GetSlotPosition();
             _rbody.gravityScale = 0f;
@@ -44,20 +46,5 @@ public class ItemDragHandler : MonoBehaviour
         else
             _rbody.gravityScale = 1f;
     }
-    public bool CheckForTrigger(out IContainable slot)
-    {
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D[] hitArr = Physics2D.RaycastAll(ray.origin, ray.direction);
 
-        foreach (var item in hitArr)
-        {
-            if (item.collider.TryGetComponent<IContainable>(out slot))
-            {
-                Debug.Log("Успешно " + slot);
-                return true;
-            }
-        }
-        slot = default;
-        return false;
-    }
 }

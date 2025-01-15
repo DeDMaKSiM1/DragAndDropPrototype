@@ -18,6 +18,7 @@ public class RaycastComponentChecker<T> : MonoBehaviour
                     Debug.Log("Успешно " + slot);
                     return true;
                 }
+                Debug.Log(item);
             }
         }
         catch (Exception e)

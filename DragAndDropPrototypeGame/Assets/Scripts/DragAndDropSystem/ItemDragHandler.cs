@@ -5,36 +5,39 @@ using UnityEngine.Events;
 
 public class ItemDragHandler : MonoBehaviour
 {
+    [SerializeField] private float _sizeChangeCoefficient = 0.8f;
     private Rigidbody2D _rbody;
     private Camera _mainCamera;
     private Vector2 mousePosition;
 
-    public UnityEvent MouseUp;
+    private Vector3 _originScale;
+    private Vector3 _changedScale; 
+
+     
     private void Start()
     {
         _rbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
+        _originScale = transform.localScale;
+        _changedScale = transform.localScale * _sizeChangeCoefficient;
     }
     private void OnMouseDown()
     {
-        mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+         mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         _rbody.gravityScale = 0f;
 
-        transform.position = mousePosition;
-
-        transform.localScale *= 0.8f;
+        transform.localScale = _originScale;
+        transform.position = mousePosition;         
     }
 
     private void OnMouseDrag()
     {
-        mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+         mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         transform.position = mousePosition;
-
     }
     private void OnMouseUp()
-    {
-        ;
-        transform.localScale /= 0.8f;
+    { 
+        
         _rbody.angularVelocity = 0;
         _rbody.linearVelocity = Vector2.zero;
 
@@ -42,9 +45,12 @@ public class ItemDragHandler : MonoBehaviour
         {
             transform.position = slot.GetSlotPosition();
             _rbody.gravityScale = 0f;
+            transform.localScale = _changedScale;
         }
         else
+        {
             _rbody.gravityScale = 1f;
+        }
     }
 
 }

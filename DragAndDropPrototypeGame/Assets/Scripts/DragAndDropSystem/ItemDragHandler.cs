@@ -22,8 +22,7 @@ public class ItemDragHandler : MonoBehaviour
     private void OnMouseDown()
     {
          mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        _rbody.gravityScale = 0f;
-
+        _rbody.gravityScale = 0f; 
         transform.localScale = _originScale;
         transform.position = mousePosition;         
     }

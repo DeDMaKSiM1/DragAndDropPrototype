@@ -39,7 +39,7 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Tap"",
                     ""type"": ""Button"",
-                    ""id"": ""faaf1c02-538c-49e5-9eae-8bfb8fa5326f"",
+                    ""id"": ""93bd97c0-9180-4d08-bb07-76b69b137e70"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -60,7 +60,7 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7f26809c-7543-4612-bdd2-e2048bef731d"",
+                    ""id"": ""99f2694d-3a2e-439a-8d88-0d9f7a606753"",
                     ""path"": ""<Touchscreen>/primaryTouch/tap"",
                     ""interactions"": """",
                     ""processors"": """",

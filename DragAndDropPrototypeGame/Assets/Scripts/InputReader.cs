@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.UIElements;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class InputReader : MonoBehaviour
@@ -13,22 +14,24 @@ public class InputReader : MonoBehaviour
     {
         _inputActions = new GameplayInput();
         _interactChecker = new();
+
     }
 
     private void OnEnable()
     {
         EnhancedTouchSupport.Enable();
-        _inputActions.Gameplay.Drag.performed += OnDrag;
-        _inputActions.Gameplay.Drag.canceled += OnDragEnd;
-        _inputActions.Gameplay.Tap.performed += OnTap;
+
+        //_inputActions.Gameplay.Drag.performed += OnDrag;  
+        _inputActions.Gameplay.Tap.canceled += OnTapDown;
         _inputActions.Enable();
     }
 
+
+
     private void OnDisable()
     {
-        _inputActions.Gameplay.Drag.performed -= OnDrag;
-        //_inputActions.Gameplay.Drag.canceled -= OnDragEnd;
-        _inputActions.Gameplay.Tap.performed -= OnTap;
+        //_inputActions.Gameplay.Drag.performed -= OnDrag;  
+        _inputActions.Gameplay.Tap.canceled -= OnTapDown;
 
         _inputActions.Gameplay.Disable();
     }
@@ -39,30 +42,20 @@ public class InputReader : MonoBehaviour
         if (_interactable == null)
         {
             _interactChecker.ComponentCheck(position, out _interactable);
-            Debug.Log("Inter == null");
+            Debug.Log($"OnDrag _interactable = {_interactable}");
+
             return;
         }
 
         _interactable.OnInteract(position);
     }
-    private void OnDragEnd(InputAction.CallbackContext context)
+
+    private void OnTapDown(InputAction.CallbackContext context)
     {
-        Debug.Log("END");
-        //NOT WORKING!!
         _interactable = null;
+
+        Debug.Log($"END _interactable = {_interactable}");
+        //NOT WORKING!!
     }
-
-    private void OnTap(InputAction.CallbackContext context)
-    {
-        if (Touch.activeTouches.Count <= 0)
-        {
-            Debug.LogWarning($"Touch.activeTouches.Count = {Touch.activeTouches.Count}");
-            return;
-
-        }
-        var touch = Touch.activeTouches[0];
-        var mousePosition = touch.screenPosition;
-        //В классе ItemDragHandler вызвать метод OnClick, проверять на коллайдер ???????????????????
-    } 
 }
 

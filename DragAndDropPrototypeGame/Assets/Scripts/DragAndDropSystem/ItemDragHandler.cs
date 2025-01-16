@@ -11,43 +11,48 @@ public class ItemDragHandler : MonoBehaviour
     private Vector3 _originScale;
     private Vector3 _changedScale;
 
-
+    RaycastComponentChecker<Collider2D> componentChecker;
     private void Start()
     {
         _rbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
         _originScale = transform.localScale;
+        componentChecker = new();
     }
     private void OnMouseDown()
-    { 
-        GravityOff();
-        IncreaseObjectSize();
-    }
-
-    private void OnMouseDrag()
-    { 
-        transform.position = GetMousePosition();
-    }
-    private void OnMouseUp()
     {
-        _rbody.angularVelocity = 0;
-        _rbody.linearVelocity = Vector2.zero;
-
-        var componentChecker = new RaycastComponentChecker<IContainable>();
-
-        if (componentChecker.ComponentCheck(Input.mousePosition, out var slot))
+        if (componentChecker.ComponentCheck(Input.mousePosition, out var component))
         {
-            var slotConfig = slot.GetSlotConfig();
-            transform.position = slotConfig.SlotPosition;
-            GravityOff();
-            DecreaseObjectSize(slotConfig.SizeChangeCoefficient);
-
+            Debug.Log($"Нашелся коллайдер = {component.name}");
         }
-        else
-        {
-            GravityOn();
-        }
+        //GravityOff();
+        //IncreaseObjectSize();
     }
+
+    //private void OnMouseDrag()
+    //{ 
+    //    transform.position = GetMousePosition();
+    //}
+    //private void OnMouseUp()
+    //{
+    //    _rbody.angularVelocity = 0;
+    //    _rbody.linearVelocity = Vector2.zero;
+
+    //    var componentChecker = new RaycastComponentChecker<IContainable>();
+
+    //    if (componentChecker.ComponentCheck(Input.mousePosition, out var slot))
+    //    {
+    //        var slotConfig = slot.GetSlotConfig();
+    //        transform.position = slotConfig.SlotPosition;
+    //        GravityOff();
+    //        DecreaseObjectSize(slotConfig.SizeChangeCoefficient);
+
+    //    }
+    //    else
+    //    {
+    //        GravityOn();
+    //    }
+    //}
     private void IncreaseObjectSize()
     {
         transform.localScale = _originScale;

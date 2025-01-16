@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class RaycastComponentChecker<T>
 { 
-    public bool ComponentCheck(Vector2 mousePosition, out T slot)
+    public bool ComponentCheck(Vector2 mousePosition, out T component)
     {
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         RaycastHit2D[] hitArr = Physics2D.RaycastAll(ray.origin, ray.direction);
 
         foreach (var item in hitArr)
         {
-            if (item.collider.TryGetComponent<T>(out slot))
+            if (item.collider.TryGetComponent<T>(out component))
             {
                 return true;
             }
         }
-        slot = default;
+        component = default;
         return false;
     }
 }

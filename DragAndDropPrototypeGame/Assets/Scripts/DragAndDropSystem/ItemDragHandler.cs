@@ -1,5 +1,5 @@
 using Scripts.Interfaces;
-using UnityEngine; 
+using UnityEngine;
 
 
 public class ItemDragHandler : MonoBehaviour
@@ -9,32 +9,27 @@ public class ItemDragHandler : MonoBehaviour
     private Vector2 mousePosition;
 
     private Vector3 _originScale;
-    private Vector3 _changedScale; 
+    private Vector3 _changedScale;
 
-     
+
     private void Start()
     {
         _rbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
         _originScale = transform.localScale;
-        //_changedScale = transform.localScale * _sizeChangeCoefficient;
     }
     private void OnMouseDown()
-    {
-         mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        _rbody.gravityScale = 0f; 
-        transform.localScale = _originScale;
-        transform.position = mousePosition;         
+    { 
+        GravityOff();
+        IncreaseObjectSize();
     }
 
     private void OnMouseDrag()
-    {
-         mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mousePosition;
+    { 
+        transform.position = GetMousePosition();
     }
     private void OnMouseUp()
-    { 
-        
+    {
         _rbody.angularVelocity = 0;
         _rbody.linearVelocity = Vector2.zero;
 
@@ -44,14 +39,35 @@ public class ItemDragHandler : MonoBehaviour
         {
             var slotConfig = slot.GetSlotConfig();
             transform.position = slotConfig.SlotPosition;
-            _changedScale = transform.localScale * slotConfig.SizeChangeCoefficient;
-            _rbody.gravityScale = 0f;
-            transform.localScale = _changedScale;
+            GravityOff();
+            DecreaseObjectSize(slotConfig.SizeChangeCoefficient);
+
         }
         else
         {
-            _rbody.gravityScale = 1f;
+            GravityOn();
         }
     }
+    private void IncreaseObjectSize()
+    {
+        transform.localScale = _originScale;
+        transform.position = mousePosition;
+    }
+    private void DecreaseObjectSize(float coefficient)
+    {
+        _changedScale = transform.localScale * coefficient;
+        transform.localScale = _changedScale;
+    }
+    private void GravityOff()
+    {
+        _rbody.gravityScale = 0f;
+    }
+    private void GravityOn()
+    {
+        _rbody.gravityScale = 1f;
+    }
+
+    private Vector2 GetMousePosition() => _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
 
 }

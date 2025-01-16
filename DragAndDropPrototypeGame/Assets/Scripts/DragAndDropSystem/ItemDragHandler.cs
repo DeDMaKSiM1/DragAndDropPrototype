@@ -2,7 +2,7 @@ using Scripts.Interfaces;
 using UnityEngine;
 
 
-public class ItemDragHandler : MonoBehaviour
+public class ItemDragHandler : MonoBehaviour, IInteractable
 {
     private Rigidbody2D _rbody;
     private Camera _mainCamera;
@@ -11,17 +11,22 @@ public class ItemDragHandler : MonoBehaviour
     private Vector3 _originScale;
     private Vector3 _changedScale;
 
-    RaycastComponentChecker<Collider2D> componentChecker;
+    RaycastComponentChecker<Collider2D> colliderChecker;
+    RaycastComponentChecker<IContainable> slotChecker;
     private void Start()
     {
         _rbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
         _originScale = transform.localScale;
-        componentChecker = new();
+        colliderChecker = new();
+    }
+    public void OnInteract(Vector2 mousePosition)
+    {
+        Debug.Log($"ТЯНЕТ {gameObject.name} {mousePosition}");
     }
     private void OnMouseDown()
     {
-        if (componentChecker.ComponentCheck(Input.mousePosition, out var component))
+        if (colliderChecker.ComponentCheck(Input.mousePosition, out var component))
         {
             Debug.Log($"Нашелся коллайдер = {component.name}");
         }
@@ -73,6 +78,5 @@ public class ItemDragHandler : MonoBehaviour
     }
 
     private Vector2 GetMousePosition() => _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-
 
 }

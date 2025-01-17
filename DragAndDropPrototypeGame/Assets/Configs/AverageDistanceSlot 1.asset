@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2aafa0c7f15effc4b815bd6eab5b6b9c, type: 3}
-  m_Name: CloseDistanceSlot
+  m_Name: AverageDistanceSlot 1
   m_EditorClassIdentifier: 
-  _sizeChangeCoefficient: 0.9
+  _sizeChangeCoefficient: 0.7

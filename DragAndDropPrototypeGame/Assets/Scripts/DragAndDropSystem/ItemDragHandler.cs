@@ -2,7 +2,7 @@ using Scripts.Interfaces;
 using UnityEngine;
 
 
-public class ItemDragHandler : MonoBehaviour
+public class ItemDragHandler : MonoBehaviour, IInteractable
 {
     private Rigidbody2D _rbody;
     private Camera _mainCamera;
@@ -10,48 +10,46 @@ public class ItemDragHandler : MonoBehaviour
 
     private Vector3 _originScale;
     private Vector3 _changedScale;
-
-
+     
+    RaycastComponentChecker<IContainable> slotChecker;
     private void Start()
     {
         _rbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
         _originScale = transform.localScale;
-    }
-    private void OnMouseDown()
-    { 
-        GravityOff();
-        IncreaseObjectSize();
+        slotChecker = new();
     }
 
-    private void OnMouseDrag()
-    { 
-        transform.position = GetMousePosition();
-    }
-    private void OnMouseUp()
+    public void OnBeginInteract()
     {
-        _rbody.angularVelocity = 0;
-        _rbody.linearVelocity = Vector2.zero;
-
-        var componentChecker = new RaycastComponentChecker<IContainable>();
-
-        if (componentChecker.ComponentCheck(Input.mousePosition, out var slot))
+        StopObject();
+        GravityOff();
+        ReturnObjectSize();
+    }
+    public void OnInteract(Vector2 mousePosition)
+    {
+        transform.position = mousePosition;
+    }
+    public void OnEndInteract(Vector2 mousePosition)
+    {
+        if (slotChecker.ComponentCheck(mousePosition, out var slot))
         {
-            var slotConfig = slot.GetSlotConfig();
-            transform.position = slotConfig.SlotPosition;
+            var config = slot.GetSlotConfig();
+            transform.position = config.SlotPosition;
+            DecreaseObjectSize(config.SizeChangeCoefficient);
             GravityOff();
-            DecreaseObjectSize(slotConfig.SizeChangeCoefficient);
 
         }
         else
         {
             GravityOn();
+
         }
     }
-    private void IncreaseObjectSize()
+
+    private void ReturnObjectSize()
     {
-        transform.localScale = _originScale;
-        transform.position = mousePosition;
+        transform.localScale = _originScale; 
     }
     private void DecreaseObjectSize(float coefficient)
     {
@@ -66,8 +64,10 @@ public class ItemDragHandler : MonoBehaviour
     {
         _rbody.gravityScale = 1f;
     }
-
-    private Vector2 GetMousePosition() => _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-
+    private void StopObject()
+    {
+        _rbody.linearVelocity = Vector2.zero;
+        _rbody.angularVelocity = 0f;
+    }
 
 }

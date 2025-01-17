@@ -20,48 +20,28 @@ public class ItemDragHandler : MonoBehaviour, IInteractable
         _originScale = transform.localScale;
         colliderChecker = new();
     }
-    public void OnInteract(Vector2 mousePosition)
+
+    public void OnBeginInteract()
     {
-        Debug.Log($"ТЯНЕТ {gameObject.name} {mousePosition}");
-    }
-    private void OnMouseDown()
-    {
-        if (colliderChecker.ComponentCheck(Input.mousePosition, out var component))
-        {
-            Debug.Log($"Нашелся коллайдер = {component.name}");
-        }
         //GravityOff();
         //IncreaseObjectSize();
+        Debug.Log("OnBeginInteract");
+    }
+    public void OnInteract(Vector2 mousePosition)
+    {
+        transform.position = mousePosition;
+    }
+    public void OnEndInteract()
+    {
+        //DecreaseObjectSize(0.6f);
+        //GravityOn();
+        Debug.Log("OnEndInteract");
+
     }
 
-    //private void OnMouseDrag()
-    //{ 
-    //    transform.position = GetMousePosition();
-    //}
-    //private void OnMouseUp()
-    //{
-    //    _rbody.angularVelocity = 0;
-    //    _rbody.linearVelocity = Vector2.zero;
-
-    //    var componentChecker = new RaycastComponentChecker<IContainable>();
-
-    //    if (componentChecker.ComponentCheck(Input.mousePosition, out var slot))
-    //    {
-    //        var slotConfig = slot.GetSlotConfig();
-    //        transform.position = slotConfig.SlotPosition;
-    //        GravityOff();
-    //        DecreaseObjectSize(slotConfig.SizeChangeCoefficient);
-
-    //    }
-    //    else
-    //    {
-    //        GravityOn();
-    //    }
-    //}
     private void IncreaseObjectSize()
     {
-        transform.localScale = _originScale;
-        transform.position = mousePosition;
+        transform.localScale = _originScale; 
     }
     private void DecreaseObjectSize(float coefficient)
     {
@@ -77,6 +57,5 @@ public class ItemDragHandler : MonoBehaviour, IInteractable
         _rbody.gravityScale = 1f;
     }
 
-    private Vector2 GetMousePosition() => _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
 }

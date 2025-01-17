@@ -60,8 +60,8 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""99f2694d-3a2e-439a-8d88-0d9f7a606753"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""id"": ""f4395597-740d-4dd4-8cbc-f8b521043f7e"",
+                    ""path"": ""<Touchscreen>/Press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

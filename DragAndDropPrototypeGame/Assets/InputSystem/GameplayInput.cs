@@ -44,6 +44,15 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TapPosition"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e498e99-269b-4a2d-aa6c-9354401b3fcf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,17 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
                     ""action"": ""Tap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b300dc5a-b175-450e-89d7-2bf0940ea4b4"",
+                    ""path"": ""<Touchscreen>/touch0/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +98,7 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Drag = m_Gameplay.FindAction("Drag", throwIfNotFound: true);
         m_Gameplay_Tap = m_Gameplay.FindAction("Tap", throwIfNotFound: true);
+        m_Gameplay_TapPosition = m_Gameplay.FindAction("TapPosition", throwIfNotFound: true);
     }
 
     ~@GameplayInput()
@@ -146,12 +167,14 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_Gameplay_Drag;
     private readonly InputAction m_Gameplay_Tap;
+    private readonly InputAction m_Gameplay_TapPosition;
     public struct GameplayActions
     {
         private @GameplayInput m_Wrapper;
         public GameplayActions(@GameplayInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Drag => m_Wrapper.m_Gameplay_Drag;
         public InputAction @Tap => m_Wrapper.m_Gameplay_Tap;
+        public InputAction @TapPosition => m_Wrapper.m_Gameplay_TapPosition;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -167,6 +190,9 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
             @Tap.started += instance.OnTap;
             @Tap.performed += instance.OnTap;
             @Tap.canceled += instance.OnTap;
+            @TapPosition.started += instance.OnTapPosition;
+            @TapPosition.performed += instance.OnTapPosition;
+            @TapPosition.canceled += instance.OnTapPosition;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -177,6 +203,9 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
             @Tap.started -= instance.OnTap;
             @Tap.performed -= instance.OnTap;
             @Tap.canceled -= instance.OnTap;
+            @TapPosition.started -= instance.OnTapPosition;
+            @TapPosition.performed -= instance.OnTapPosition;
+            @TapPosition.canceled -= instance.OnTapPosition;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -198,5 +227,6 @@ public partial class @GameplayInput: IInputActionCollection2, IDisposable
     {
         void OnDrag(InputAction.CallbackContext context);
         void OnTap(InputAction.CallbackContext context);
+        void OnTapPosition(InputAction.CallbackContext context);
     }
 }

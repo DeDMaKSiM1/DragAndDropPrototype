@@ -23,9 +23,9 @@ public class ItemDragHandler : MonoBehaviour, IInteractable
 
     public void OnBeginInteract()
     {
-        //GravityOff();
-        //IncreaseObjectSize();
-        Debug.Log("OnBeginInteract");
+        StopObject();
+        GravityOff();
+        ReturnObjectSize();
     }
     public void OnInteract(Vector2 mousePosition)
     {
@@ -33,13 +33,10 @@ public class ItemDragHandler : MonoBehaviour, IInteractable
     }
     public void OnEndInteract()
     {
-        //DecreaseObjectSize(0.6f);
-        //GravityOn();
-        Debug.Log("OnEndInteract");
-
+        GravityOn(); 
     }
 
-    private void IncreaseObjectSize()
+    private void ReturnObjectSize()
     {
         transform.localScale = _originScale; 
     }
@@ -56,6 +53,10 @@ public class ItemDragHandler : MonoBehaviour, IInteractable
     {
         _rbody.gravityScale = 1f;
     }
-
+    private void StopObject()
+    {
+        _rbody.linearVelocity = Vector2.zero;
+        _rbody.angularVelocity = 0f;
+    }
 
 }

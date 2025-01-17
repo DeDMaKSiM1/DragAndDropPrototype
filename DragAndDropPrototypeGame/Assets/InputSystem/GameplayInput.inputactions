@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Tap",
-                    "type": "Button",
-                    "id": "93bd97c0-9180-4d08-bb07-76b69b137e70",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "TapPosition",
                     "type": "Button",
                     "id": "7e498e99-269b-4a2d-aa6c-9354401b3fcf",
@@ -42,17 +33,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Drag",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f4395597-740d-4dd4-8cbc-f8b521043f7e",
-                    "path": "<Touchscreen>/Press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Tap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

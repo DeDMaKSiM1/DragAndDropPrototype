@@ -33,14 +33,12 @@ public class InputReader : MonoBehaviour
         _inputActions.Gameplay.TapPosition.canceled -= OnTapUp;
         _inputActions.Gameplay.Disable();
     }
-
-    //вызывается только один раз
+     
     private void OnDragBegin(InputAction.CallbackContext context)
     {
         Vector2 screenPosition = context.ReadValue<Vector2>();
 
-        _interactChecker.ComponentCheck(screenPosition, out _interactable);
-        Debug.Log($"Up, interactable = {_interactable}");
+        _interactChecker.ComponentCheck(screenPosition, out _interactable); 
         _interactable?.OnBeginInteract();
     }
     private void OnDrag(InputAction.CallbackContext context)
@@ -48,12 +46,10 @@ public class InputReader : MonoBehaviour
         Vector2 screenPosition = context.ReadValue<Vector2>();
 
         if (_interactable == null)
-        {
-            Debug.Log("NO DRAG");
+        { 
             return;
         }
-        var position = Camera.main.ScreenToWorldPoint(screenPosition);
-        Debug.Log("DRAG");
+        var position = Camera.main.ScreenToWorldPoint(screenPosition); 
         _interactable.OnInteract(position);
     }
 
@@ -76,8 +72,7 @@ public class InputReader : MonoBehaviour
         var touch = Touch.activeFingers[0];
         Vector2 screenPosition = touch.screenPosition;
 
-        _interactChecker.ComponentCheck(screenPosition, out _interactable);
-        Debug.Log($"Down, interactable = {_interactable}");
+        _interactChecker.ComponentCheck(screenPosition, out _interactable); 
         _interactable?.OnBeginInteract();
     }
 }

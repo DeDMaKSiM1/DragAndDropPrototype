@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aafa0c7f15effc4b815bd6eab5b6b9c, type: 3}
   m_Name: AverageDistanceSlot
   m_EditorClassIdentifier: 
-  _sizeChangeCoefficient: 0.7
+  SizeChangeCoefficient: 0.65
+  SlotPosition: {x: 0, y: 0, z: 0}

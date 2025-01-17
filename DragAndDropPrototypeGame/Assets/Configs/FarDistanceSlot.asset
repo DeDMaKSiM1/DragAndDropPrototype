@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aafa0c7f15effc4b815bd6eab5b6b9c, type: 3}
   m_Name: FarDistanceSlot
   m_EditorClassIdentifier: 
-  _sizeChangeCoefficient: 0.5
+  SizeChangeCoefficient: 0.5
+  SlotPosition: {x: -1.855, y: 0.626, z: 0}

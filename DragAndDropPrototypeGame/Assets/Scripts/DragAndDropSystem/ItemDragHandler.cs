@@ -10,15 +10,14 @@ public class ItemDragHandler : MonoBehaviour, IInteractable
 
     private Vector3 _originScale;
     private Vector3 _changedScale;
-
-    RaycastComponentChecker<Collider2D> colliderChecker;
+     
     RaycastComponentChecker<IContainable> slotChecker;
     private void Start()
     {
         _rbody = GetComponent<Rigidbody2D>();
         _mainCamera = Camera.main;
         _originScale = transform.localScale;
-        colliderChecker = new();
+        slotChecker = new();
     }
 
     public void OnBeginInteract()
@@ -31,9 +30,21 @@ public class ItemDragHandler : MonoBehaviour, IInteractable
     {
         transform.position = mousePosition;
     }
-    public void OnEndInteract()
+    public void OnEndInteract(Vector2 mousePosition)
     {
-        GravityOn(); 
+        if (slotChecker.ComponentCheck(mousePosition, out var slot))
+        {
+            var config = slot.GetSlotConfig();
+            transform.position = config.SlotPosition;
+            DecreaseObjectSize(config.SizeChangeCoefficient);
+            GravityOff();
+
+        }
+        else
+        {
+            GravityOn();
+
+        }
     }
 
     private void ReturnObjectSize()

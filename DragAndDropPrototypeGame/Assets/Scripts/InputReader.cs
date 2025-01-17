@@ -22,7 +22,7 @@ public class InputReader : MonoBehaviour
         EnhancedTouchSupport.Enable();
         _inputActions.Gameplay.Drag.performed += OnDrag;
         _inputActions.Gameplay.TapPosition.started += OnTapDown;
-        _inputActions.Gameplay.Tap.canceled += OnTapUp;
+        _inputActions.Gameplay.TapPosition.canceled += OnTapUp;
         _inputActions.Enable();
     }
 
@@ -30,7 +30,7 @@ public class InputReader : MonoBehaviour
     {
         _inputActions.Gameplay.Drag.performed -= OnDrag;
         _inputActions.Gameplay.TapPosition.started -= OnTapDown;
-        _inputActions.Gameplay.Tap.canceled -= OnTapUp;
+        _inputActions.Gameplay.TapPosition.canceled -= OnTapUp;
         _inputActions.Gameplay.Disable();
     }
 
@@ -59,9 +59,14 @@ public class InputReader : MonoBehaviour
 
     private void OnTapUp(InputAction.CallbackContext context)
     {
-        _interactable?.OnEndInteract();
-        _interactable = null;
-        Debug.Log($"End, interactable = {_interactable}");
+        if (Touch.activeFingers.Count <= 0)
+            return;
+        var touch = Touch.activeFingers[0];
+        Vector2 screenPosition = touch.screenPosition;
+        var position = Camera.main.ScreenToWorldPoint(screenPosition); 
+         
+        _interactable?.OnEndInteract(screenPosition);
+        _interactable = null; 
 
     }
     private void OnTapDown(InputAction.CallbackContext context)
@@ -69,7 +74,7 @@ public class InputReader : MonoBehaviour
         if (Touch.activeFingers.Count <= 0)
             return;
         var touch = Touch.activeFingers[0];
-        Vector2 screenPosition = touch.screenPosition; 
+        Vector2 screenPosition = touch.screenPosition;
 
         _interactChecker.ComponentCheck(screenPosition, out _interactable);
         Debug.Log($"Down, interactable = {_interactable}");

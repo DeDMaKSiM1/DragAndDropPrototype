@@ -5,29 +5,27 @@ using UnityEngine;
 
 public class BackgroundDragComponent : MonoBehaviour, IInteractable
 {
-    private Camera mainCamera;
-    private float lastCameraPositionX;
+    [SerializeField] private float _speed = 5f;
 
-    private void Start()
-    {
-        mainCamera = Camera.main;
-    }
+    private float lastCameraPositionX;
+    private float cameraXPos;
+    private Camera _camera;
+
     public void OnBeginInteract()
     {
-        lastCameraPositionX = mainCamera.transform.position.x; 
         //Debug.Log(lastCameraPositionX);
-
+        _camera = Camera.main;
     }
     public void OnInteract(Vector2 mousePosition)
     {
-        //Debug.Log(mousePosition);
-        float delta = mousePosition.x - lastCameraPositionX;
-        mainCamera.transform.position = new Vector3(-delta  , mainCamera.transform.position.y, mainCamera.transform.position.z);
-        //Debug.Log(delta);
+        var direction = mousePosition.normalized;
+        Debug.Log(direction);
+        cameraXPos = _camera.transform.position.x + direction.x * _speed * Time.deltaTime;
+        _camera.transform.position = new Vector3(cameraXPos, 0, -10);
+        Debug.Log(cameraXPos);
     }
     public void OnEndInteract(Vector2 mousePosition)
     {
-
     }
 }
 

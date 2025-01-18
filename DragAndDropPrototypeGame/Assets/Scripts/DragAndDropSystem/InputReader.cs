@@ -33,24 +33,19 @@ public class InputReader : MonoBehaviour
         _inputActions.Gameplay.TapPosition.canceled -= OnTapUp;
         _inputActions.Gameplay.Disable();
     }
-     
-    private void OnDragBegin(InputAction.CallbackContext context)
-    {
-        Vector2 screenPosition = context.ReadValue<Vector2>();
-
-        _interactChecker.ComponentCheck(screenPosition, out _interactable); 
-        _interactable?.OnBeginInteract();
-    }
+ 
     private void OnDrag(InputAction.CallbackContext context)
     {
         Vector2 screenPosition = context.ReadValue<Vector2>();
+        //Debug.Log(screenPosition);
 
         if (_interactable == null)
         { 
             return;
         }
         var position = Camera.main.ScreenToWorldPoint(screenPosition);
-        Debug.Log(position);
+        //Debug.Log(position);
+
         _interactable.OnInteract(position);
     }
 

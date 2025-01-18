@@ -2,7 +2,7 @@ using Scripts.Interfaces;
 using UnityEngine;
 
 
-public class ItemDragHandler : MonoBehaviour, IInteractable
+public class ItemDragComponent : MonoBehaviour, IInteractable
 {
     private Rigidbody2D _rbody;
     private Camera _mainCamera;

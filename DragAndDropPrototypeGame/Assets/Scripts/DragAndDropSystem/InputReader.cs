@@ -49,7 +49,8 @@ public class InputReader : MonoBehaviour
         { 
             return;
         }
-        var position = Camera.main.ScreenToWorldPoint(screenPosition); 
+        var position = Camera.main.ScreenToWorldPoint(screenPosition);
+        Debug.Log(position);
         _interactable.OnInteract(position);
     }
 

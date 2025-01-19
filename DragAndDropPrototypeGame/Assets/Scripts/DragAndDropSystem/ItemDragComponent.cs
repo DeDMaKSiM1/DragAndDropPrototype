@@ -20,7 +20,7 @@ public class ItemDragComponent : MonoBehaviour, IInteractable
         slotChecker = new();
     }
 
-    public void OnBeginInteract()
+    public void OnBeginInteract(Vector2 mousePosition)
     {
         StopObject();
         GravityOff();

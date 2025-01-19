@@ -44,6 +44,7 @@ public class InputReader : MonoBehaviour
             return;
         }
         var position = Camera.main.ScreenToWorldPoint(screenPosition);
+         
         //Debug.Log(position);
 
         _interactable.OnInteract(position);
@@ -68,8 +69,10 @@ public class InputReader : MonoBehaviour
         var touch = Touch.activeFingers[0];
         Vector2 screenPosition = touch.screenPosition;
 
-        _interactChecker.ComponentCheck(screenPosition, out _interactable); 
-        _interactable?.OnBeginInteract();
+        _interactChecker.ComponentCheck(screenPosition, out _interactable);
+        var position = Camera.main.ScreenToWorldPoint(screenPosition);
+
+        _interactable?.OnBeginInteract(position);
     }
 }
 

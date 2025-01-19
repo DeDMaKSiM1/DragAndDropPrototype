@@ -1,11 +1,14 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSlotConfig", menuName = "Configs/Slot")]
-public class SlotConfig : ScriptableObject
+namespace Scripts.Configs
 {
-    public float SizeChangeCoefficient = 0.8f;
-    public Vector3 SlotPosition;
- 
+    [CreateAssetMenu(fileName = "NewSlotConfig", menuName = "Configs/Slot")]
+    public class SlotConfig : ScriptableObject
+    {
+        public float SizeChangeCoefficient = 0.8f;
+        public Vector3 SlotPosition;
+
+    }
 }
+
 

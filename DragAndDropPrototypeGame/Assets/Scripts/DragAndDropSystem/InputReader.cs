@@ -1,78 +1,76 @@
-﻿using System;
+﻿using Scripts.Components;
+using Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
-using UnityEngine.UIElements;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
-public class InputReader : MonoBehaviour
+namespace Scripts.DragAndDromSystem
 {
-    private GameplayInput _inputActions;
-    private IInteractable _interactable;
-    private RaycastComponentChecker<IInteractable> _interactChecker;
-
-    private void Awake()
+    public class InputReader : MonoBehaviour
     {
-        _inputActions = new GameplayInput();
-        _interactChecker = new();
-    }
+        private GameplayInput _inputActions;
+        private IInteractable _interactable;
+        private RaycastComponentChecker<IInteractable> _interactChecker;
 
-    private void OnEnable()
-    {
-        EnhancedTouchSupport.Enable();
-        _inputActions.Gameplay.Drag.performed += OnDrag;
-        _inputActions.Gameplay.TapPosition.started += OnTapDown;
-        _inputActions.Gameplay.TapPosition.canceled += OnTapUp;
-        _inputActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _inputActions.Gameplay.Drag.performed -= OnDrag;
-        _inputActions.Gameplay.TapPosition.started -= OnTapDown;
-        _inputActions.Gameplay.TapPosition.canceled -= OnTapUp;
-        _inputActions.Gameplay.Disable();
-    }
- 
-    private void OnDrag(InputAction.CallbackContext context)
-    {
-        Vector2 screenPosition = context.ReadValue<Vector2>();
-        //Debug.Log(screenPosition);
-
-        if (_interactable == null)
-        { 
-            return;
+        private void Awake()
+        {
+            _inputActions = new GameplayInput();
+            _interactChecker = new();
         }
-        var position = Camera.main.ScreenToWorldPoint(screenPosition);
-         
-        //Debug.Log(position);
 
-        _interactable.OnInteract(position);
-    }
+        private void OnEnable()
+        {
+            EnhancedTouchSupport.Enable();
+            _inputActions.Gameplay.Drag.performed += OnDrag;
+            _inputActions.Gameplay.TapPosition.started += OnTapDown;
+            _inputActions.Gameplay.TapPosition.canceled += OnTapUp;
+            _inputActions.Enable();
+        }
 
-    private void OnTapUp(InputAction.CallbackContext context)
-    {
-        if (Touch.activeFingers.Count <= 0)
-            return;
-        var touch = Touch.activeFingers[0];
-        Vector2 screenPosition = touch.screenPosition;
-        var position = Camera.main.ScreenToWorldPoint(screenPosition); 
-         
-        _interactable?.OnEndInteract(screenPosition);
-        _interactable = null; 
+        private void OnDisable()
+        {
+            _inputActions.Gameplay.Drag.performed -= OnDrag;
+            _inputActions.Gameplay.TapPosition.started -= OnTapDown;
+            _inputActions.Gameplay.TapPosition.canceled -= OnTapUp;
+            _inputActions.Gameplay.Disable();
+        }
 
-    }
-    private void OnTapDown(InputAction.CallbackContext context)
-    {
-        if (Touch.activeFingers.Count <= 0)
-            return;
-        var touch = Touch.activeFingers[0];
-        Vector2 screenPosition = touch.screenPosition;
+        private void OnDrag(InputAction.CallbackContext context)
+        {
+            if (_interactable == null)
+                return;
 
-        _interactChecker.ComponentCheck(screenPosition, out _interactable);
-        var position = Camera.main.ScreenToWorldPoint(screenPosition);
+            Vector2 screenPosition = context.ReadValue<Vector2>();
+            var position = Camera.main.ScreenToWorldPoint(screenPosition);
 
-        _interactable?.OnBeginInteract(position);
+            _interactable.OnInteract(position);
+        }
+
+        private void OnTapUp(InputAction.CallbackContext context)
+        {
+            if (Touch.activeFingers.Count <= 0)
+                return;
+            var touch = Touch.activeFingers[0];
+            Vector2 screenPosition = touch.screenPosition;
+
+            _interactable?.OnEndInteract(screenPosition);
+            _interactable = null;
+
+        }
+
+        private void OnTapDown(InputAction.CallbackContext context)
+        {
+            if (Touch.activeFingers.Count <= 0)
+                return;
+            var touch = Touch.activeFingers[0];
+
+            _interactChecker.ComponentCheck(touch.screenPosition, out _interactable);
+            var position = Camera.main.ScreenToWorldPoint(touch.screenPosition);
+
+            _interactable?.OnBeginInteract(position);
+        }
     }
 }
+
 

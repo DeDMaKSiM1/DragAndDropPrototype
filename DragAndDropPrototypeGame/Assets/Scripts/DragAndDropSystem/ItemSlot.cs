@@ -1,16 +1,21 @@
-﻿using Scripts.Interfaces;
+﻿using Scripts.Configs;
+using Scripts.Interfaces;
 using UnityEngine;
 
-public class ItemSlot : MonoBehaviour, IContainable
+namespace Scripts.DragAndDromSystem
 {
-    [SerializeField] private SlotConfig _config;
-    [SerializeField] private Transform _slotPosition;
-
-    public SlotConfig GetSlotConfig()
+    public class ItemSlot : MonoBehaviour, IContainable
     {
-        _config.SlotPosition = _slotPosition.position;
+        [SerializeField] private SlotConfig _config;
+        [SerializeField] private Transform _slotPosition;
 
-        return _config;
+        public SlotConfig GetSlotConfig()
+        {
+            _config.SlotPosition = _slotPosition.position;
+
+            return _config;
+        }
     }
 }
+
 

@@ -1,6 +1,4 @@
-
-
-using UnityEngine;
+using Scripts.Configs;
 
 namespace Scripts.Interfaces
 {
